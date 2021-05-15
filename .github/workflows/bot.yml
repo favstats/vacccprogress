@@ -1,0 +1,37 @@
+  
+name: "Update Bot"
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+      - cron: '0 1 * * *'
+      - on: push
+jobs:
+  update-data:
+    name: Update bot
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: 'release'
+      - name: "Setup - Install Packages"
+        run: |
+          install.packages('remotes')
+          remotes::install_github("hadley/emo")
+          install.packages('dplyr')
+          install.packages('twitteR')
+          install.packages('stringr')
+          install.packages('countrycode')
+          install.packages('here')
+        shell: Rscript {0}
+      - name: "Bot - Run"
+        run: Rscript 'R/bot.R'
+        env:
+          consumer_key: ${{ secrets.CONSUMER_KEY }}
+          consumer_secret: ${{ secrets.CONSUMER_SECRET }}
+          token: ${{ secrets.TOKEN }}
+          secret: ${{ secrets.SECRET }}
