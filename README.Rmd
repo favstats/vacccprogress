@@ -1,0 +1,21 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# vacccprogress
+
+Code for [vacccprogress Twitter bot](https://twitter.com/vacccprogress) Twitter bot. 
+
+Tweets daily COVID-19 Vaccination progress. 
+
+Data taken from [Our World In Data](https://ourworldindata.org/covid-vaccinations).
+.
