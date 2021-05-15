@@ -16,10 +16,10 @@ jobs:
           r-version: 'release'
       - name: "Setup - Install Packages"
         run: |
+          install.packages('twitteR')
           install.packages('remotes')
           remotes::install_github("hadley/emo")
           install.packages('dplyr')
-          install.packages('twitteR')
           install.packages('stringr')
           install.packages('countrycode')
           install.packages('here')

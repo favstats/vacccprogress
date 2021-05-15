@@ -4,10 +4,10 @@ source(here::here("R", "utils.R"))
 
 
 library(dplyr)
-library(twitteR)
 library(emo)
 library(countrycode)
 library(stringr)
+library(twitteR)
 
 flag_emojis <- emo::jis %>%
     filter(group == "Flags") %>% 

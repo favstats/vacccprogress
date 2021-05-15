@@ -3,8 +3,7 @@
 
 # vacccprogress
 
-Code for [vacccprogress Twitter bot](https://twitter.com/vacccprogress)
-Twitter bot.
+Code for [vacccprogress Twitter bot](https://twitter.com/vacccprogress).
 
 Tweets daily COVID-19 Vaccination progress.
 
