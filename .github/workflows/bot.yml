@@ -22,6 +22,7 @@ jobs:
           install.packages('dplyr')
           install.packages('stringr')
           install.packages('countrycode')
+          install.packages('scales')
           install.packages('here')
         shell: Rscript {0}
       - name: "Bot - Run"
