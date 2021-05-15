@@ -1,0 +1,103 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+
+library(tidyverse)
+
+
+vaccs <- read_csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
+
+
+vaccs %>% 
+    filter(location %in% c("Europe", "North America", "South America", "Asia", "Africa", "Oceania")) %>% 
+    count(location, sort =T)
+
+vaccs %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup() %>% 
+    arrange(desc(date))
+    
+```
+
+
+
+```{r}
+	
+generate_pbar <- function(percentage) {
+   num_chars <- 30
+   num_filled <- round(percentage*num_chars)
+   num_empty <- num_chars-num_filled
+   
+   display_percentage <- sprintf("%.1f", percentage*100)
+
+   msg  <- paste0(paste0(rep('█', num_filled), collapse = ""), 
+          paste0(rep('░', num_empty), collapse = ""), " ",
+          display_percentage, "%",collapse = "")
+   
+   return(msg)
+
+}
+
+vec <- seq(0, 1, by = 0.01)
+
+for (jj in 1:length(vec)) {
+    cat(generate_pbar(vec[jj]), "\n")
+}
+
+```
+
+```{r}
+library(twitteR)
+
+consumer_key <- Sys.getenv("consumer_key")
+
+consumer_secret <- Sys.getenv("consumer_secret")
+
+access_token <- Sys.getenv("token")
+
+access_secret <- Sys.getenv("secret")
+
+setup_twitter_oauth(consumer_key,consumer_secret,
+                    access_token,access_secret)
+
+```
+
+```{r}
+vaccs %>% 
+    filter(location %in% c("Europe", "North America", "South America", "Asia", "Africa", "Oceania")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup() %>% 
+    arrange(desc(date)) %>% 
+  mutate(location = case_when(
+    location == "South America" ~ "S. America",
+    location == "North America" ~ "N. America",
+    T ~ location
+  )) %>% 
+  rowwise() %>% 
+  mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100),
+         full_vacc_label = paste0(location, ":\n", full_vacc_label)) %>% 
+  pull(full_vacc_label) %>% 
+  paste0(collapse = "\n") %>% 
+  paste0("Fully vaccinated by continent:\n\n", .) %>% 
+  cat()
+```
+
+
+```{r}
+twitteR::tweet(text = generate_pbar(0.2), bypassCharLimit = T)
+
+```
+
