@@ -84,15 +84,15 @@ if (current_date != last_date){
         slice(1) %>% 
         ungroup()%>% 
         rowwise() %>% 
-        mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 20),
-               full_vacc_label = paste0("Fully vaccinated:\n", full_vacc_label),
-               vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 20),
-               vacc_label = paste0("At least 1 dose:\n", vacc_label),
-               people_fully_vaccinated = scales::unit_format(scale = 1/1e6, accuracy = 0.01)(people_fully_vaccinated),
-               people_vaccinated = scales::unit_format(scale = 1/1e6, accuracy = 0.01)(people_vaccinated),
-               daily_vaccinations = scales::unit_format(scale = 1/1e6, accuracy = 0.01)(daily_vaccinations),
+        mutate(people_fully_vaccinated = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(people_fully_vaccinated),
+               full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+               full_vacc_label = glue::glue("Fully vaccinated ({people_fully_vaccinated}):\n", full_vacc_label),
+               people_vaccinated = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(people_vaccinated),
+               vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+               vacc_label = paste0("At least 1 dose ({people_vaccinated}):\n", vacc_label),
+               daily_vaccinations = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(daily_vaccinations),
                # daily_vaccinations_per_million = scales::label_number()(daily_vaccinations_per_million),
-               full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} ({people_vaccinated})\n{full_vacc_label} ({people_fully_vaccinated})\n\nDaily Vaccinations:\n{daily_vaccinations} doses administered\n{daily_vaccinations_per_million} doses per million people")) %>% pull(full_label)
+               full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} \n{full_vacc_label}\n\nDaily Vaccinations:\n{daily_vaccinations} doses administered\n{daily_vaccinations_per_million} doses per million people")) %>% pull(full_label)
     
     
     
