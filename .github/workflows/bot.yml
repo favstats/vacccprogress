@@ -32,8 +32,5 @@ jobs:
           consumer_secret: ${{ secrets.CONSUMER_SECRET }}
           token: ${{ secrets.TOKEN }}
           secret: ${{ secrets.SECRET }}
-      - name: Commit results
-        run: |
-          git add -A || echo "No changes to commit"
-          git commit --allow-empty -m 'gHA build: ${{github.run_number}}' || echo "No changes to commit"
-          git push https://${{github.actor}}:${{secrets.token}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
+      - name: "Commit"
+        uses: EndBug/add-and-commit@v5
