@@ -3,7 +3,7 @@ name: "Update Bot"
 on: 
   # push:
   schedule:
-  - cron: '0 20 * * *'
+  - cron: '30  */8 * * *'
   
 jobs:
   update-data:
