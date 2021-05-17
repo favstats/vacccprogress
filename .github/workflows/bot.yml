@@ -33,4 +33,6 @@ jobs:
           token: ${{ secrets.TOKEN }}
           secret: ${{ secrets.SECRET }}
       - name: "Commit"
-        uses: EndBug/add-and-commit@v5
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Bot Routine
