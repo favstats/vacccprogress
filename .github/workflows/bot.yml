@@ -5,7 +5,7 @@ on:
   - cron: '30  */8 * * *'
   push:
     branches:
-      - "main"
+      - "master"
       
 jobs:
   update-data:
