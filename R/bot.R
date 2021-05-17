@@ -130,6 +130,8 @@ if (current_date != last_date){
     
     twitteR::tweet(text = top_daily, bypassCharLimit = T)
     
+} else {
+    print("No update.")
 }
 
 
