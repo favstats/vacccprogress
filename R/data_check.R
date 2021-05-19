@@ -18,4 +18,5 @@ if (vacc_date == last_date) {
 
 # write out lastdate and update for gh actions
 cat(last_date, file = "lastdate.txt")
+cat(last_date, file = "/tmp/last_date.txt")
 cat("update", file = "/tmp/update.txt")
