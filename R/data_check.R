@@ -9,13 +9,13 @@ vacc_date <- max(as.Date(unique(vaccs[vaccs$location == "World",]$date)), na.rm 
 last_date <- readLines(here::here("tmp", "lastdate.txt"))
 
 
-# check whether the new Datenstand is already in the time series data
+# check whether the new data has already been tweeted
 if (vacc_date != last_date) {
     # no new data
     print("No new data. Skipping update.")
     cat("no_update", file = here::here("tmp", "update.txt"))
     
-    # quit(status = 0, save = "no")
+    quit(status = 0, save = "no")
 }
 
 
