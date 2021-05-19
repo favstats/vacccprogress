@@ -2,10 +2,10 @@
 name: "Update Bot"
 on: 
   schedule:
-  - cron: '30  */8 * * *'
-  push:
-    branches:
-      - "master"
+  - cron: '*/15 * * * *'
+  # push:
+  #   branches:
+  #     - "master"
       
 jobs:
   update-data:
@@ -16,6 +16,18 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: 'release'
+      - name: "Data - Read datenstand and check whether data was updated"
+        id: check-whether-updated
+        run: |
+          UPDATE_MSG=$(cat /tmp/update.txt)
+          LAST_DATE=$(cat /tmp/last_date.txt)
+          IS_UPDATED=0; [ "UPDATE_MSG" == "no_update" ] || IS_UPDATED=1
+          echo $UPDATE_MSG
+          echo LAST_DATE
+          echo $IS_UPDATED
+          echo "::set-output name=UPDATE_MSG::UPDATE_MSG"
+          echo "::set-output name=LAST_DATE::LAST_DATE"
+          echo "::set-output name=IS_UPDATED::$IS_UPDATED"
       - name: "Setup - Install Packages"
         run: |
           install.packages('twitteR')
@@ -27,8 +39,10 @@ jobs:
           install.packages('scales')
           install.packages('here')
         shell: Rscript {0}
+        if:  ${{ steps.check-whether-updated.outputs.IS_UPDATED == 1 }}
       - name: "Bot - Run"
         run: Rscript 'R/bot.R'
+        if:  ${{ steps.check-whether-updated.outputs.IS_UPDATED == 1 }}
         env:
           consumer_key: ${{ secrets.CONSUMER_KEY }}
           consumer_secret: ${{ secrets.CONSUMER_SECRET }}

@@ -28,15 +28,15 @@ setup_twitter_oauth(consumer_key,consumer_secret,
 
 vaccs <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
 
-last_date <- vaccs %>% 
-    filter(date == max(date)) %>% 
-    pull(date) %>% 
-    unique()
+# last_date <- vaccs %>% 
+#     filter(date == max(date)) %>% 
+#     pull(date) %>% 
+#     unique()
+# 
+# 
+# current_date <- readLines(here::here("lastdate.txt"))
 
-
-current_date <- readLines(here::here("lastdate.txt"))
-
-if (current_date != last_date){
+# if (current_date != last_date){
     ####### Vaccinated by Continent #####
     
     
@@ -130,10 +130,10 @@ if (current_date != last_date){
     
     twitteR::tweet(text = top_daily, bypassCharLimit = T)
     
-} else {
-    print("No update.")
-}
+# } else {
+#     print("No update.")
+# }
 
 
 
-cat(last_date, file = here::here("lastdate.txt"))
+# cat(last_date, file = here::here("lastdate.txt"))
