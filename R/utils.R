@@ -13,3 +13,5 @@ generate_pbar <- function(percentage, num_chars = 13) {
     return(msg)
     
 }
+
+

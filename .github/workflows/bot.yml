@@ -3,15 +3,9 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - '**/README.**'
-      - 'data/*'
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - '**/README.**'
-      - 'data/*'
   schedule:
     - cron: '0 * * * *'
       

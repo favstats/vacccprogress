@@ -1,9 +1,13 @@
 
+shhh <- function(x) {
+    suppressMessages(suppressWarnings(readLines(x)))
+}
+
 vaccs <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
 
 vacc_date <- max(as.Date(unique(vaccs[vaccs$location == "World",]$date)), na.rm = T)
 
-last_date <- readLines("lastdate.txt")
+last_date <- shhh("lastdate.txt")
 
 # check whether the new data has already been tweeted
 if (vacc_date == last_date) {
