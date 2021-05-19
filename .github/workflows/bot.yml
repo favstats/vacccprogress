@@ -2,10 +2,10 @@
 name: "Update Bot"
 on: 
   schedule:
-  - cron: '*/15 * * * *'
-  # push:
-  #   branches:
-  #     - "master"
+  - cron: '*/5 * * * *'
+  push:
+    branches:
+      - "master"
       
 jobs:
   update-data:
@@ -16,7 +16,7 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: 'release'
-      - name: "Data - Read datenstand and check whether data was updated"
+      - name: "Data - Check whether data was updated"
         id: check-whether-updated
         run: |
           UPDATE_MSG=$(cat /tmp/update.txt)
