@@ -11,6 +11,7 @@ if (vacc_date != last_date) {
     # no new data
     print("No new data. Skipping update.")
     cat("no_update", file = "/tmp/update.txt")
+    cat(last_date, file = "/tmp/last_date.txt")
     
     quit(status = 0, save = "no")
 }
