@@ -12,10 +12,19 @@ jobs:
     name: Update bot
     runs-on: macOS-latest
     steps:
-      - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: 'release'
+      - name: Setup - Install
+        run: |
+          install.packages('here')
+        shell: Rscript {0}
+      - name: Setup - Checkout repo
+        uses: actions/checkout@v2
+      - name: "Data - Retrieve data"
+        run: |
+          source('R/data_check.R')
+        shell: Rscript {0}
       - name: "Data - Check whether data was updated"
         id: check-whether-updated
         run: |
@@ -31,13 +40,12 @@ jobs:
       - name: "Setup - Install Packages"
         run: |
           install.packages('twitteR')
+          install.packages('dplyr')
           install.packages('remotes')
           remotes::install_github("hadley/emo")
-          install.packages('dplyr')
           install.packages('stringr')
           install.packages('countrycode')
           install.packages('scales')
-          install.packages('here')
         shell: Rscript {0}
         if:  ${{ steps.check-whether-updated.outputs.IS_UPDATED == 1 }}
       - name: "Bot - Run"
