@@ -36,7 +36,7 @@ jobs:
           LAST_DATE=$(cat /tmp/last_date.txt)
           IS_UPDATED=0; [ "UPDATE_MSG" == "no_update" ] || IS_UPDATED=1
           echo $UPDATE_MSG
-          echo LAST_DATE
+          echo $LAST_DATE
           echo $IS_UPDATED
           echo "::set-output name=UPDATE_MSG::UPDATE_MSG"
           echo "::set-output name=LAST_DATE::LAST_DATE"
