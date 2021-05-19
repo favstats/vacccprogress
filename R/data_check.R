@@ -7,7 +7,7 @@ last_date <- readLines("lastdate.txt")
 
 
 # check whether the new data has already been tweeted
-if (vacc_date != last_date) {
+if (vacc_date == last_date) {
     # no new data
     print("No new data. Skipping update.")
     cat("no_update", file = "/tmp/update.txt")
