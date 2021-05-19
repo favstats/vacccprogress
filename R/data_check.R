@@ -5,7 +5,6 @@ vacc_date <- max(as.Date(unique(vaccs[vaccs$location == "World",]$date)), na.rm 
 
 last_date <- readLines("lastdate.txt")
 
-
 # check whether the new data has already been tweeted
 if (vacc_date == last_date) {
     # no new data
