@@ -18,15 +18,11 @@ on:
 jobs:
   update-data:
     name: Update bot
-    runs-on: macOS-latest
+    runs-on: "macos-latest"
     steps:
       - uses: r-lib/actions/setup-r@v1
         with:
           r-version: 'release'
-      - name: Setup - Install
-        run: |
-          install.packages('here')
-        shell: Rscript {0}
       - name: Setup - Checkout repo
         uses: actions/checkout@v2
       - name: "Data - Retrieve data"
@@ -36,19 +32,17 @@ jobs:
       - name: "Data - Check whether data was updated"
         id: check-whether-updated
         run: |
-          UPDATE_MSG=$(cat tmp/update.txt)
-          LAST_DATE=$(cat tmp/last_date.txt)
+          UPDATE_MSG=$(cat /tmp/update.txt)
           IS_UPDATED=0; [ "UPDATE_MSG" == "no_update" ] || IS_UPDATED=1
           echo $UPDATE_MSG
-          echo LAST_DATE
           echo $IS_UPDATED
           echo "::set-output name=UPDATE_MSG::UPDATE_MSG"
-          echo "::set-output name=LAST_DATE::LAST_DATE"
           echo "::set-output name=IS_UPDATED::$IS_UPDATED"
       - name: "Setup - Install Packages"
         run: |
           install.packages('twitteR')
           install.packages('dplyr')
+          install.packages('here')
           install.packages('remotes')
           remotes::install_github("hadley/emo")
           install.packages('stringr')
