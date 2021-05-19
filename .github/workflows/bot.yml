@@ -1,11 +1,19 @@
-  
 name: "Update Bot"
-on: 
-  schedule:
-  - cron: '*/5 * * * *'
+on:
   push:
     branches:
-      - "master"
+      - master
+    paths-ignore:
+      - '**/README.**'
+      - 'data/*'
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - '**/README.**'
+      - 'data/*'
+  schedule:
+    - cron: '*/5 * * * *'
       
 jobs:
   update-data:
