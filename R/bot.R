@@ -26,7 +26,13 @@ access_secret <- Sys.getenv("secret")
 setup_twitter_oauth(consumer_key,consumer_secret,
                     access_token,access_secret)
 
-vaccs <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv")
+vaccs <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv") %>% 
+    mutate(date = as.Date(date))
+
+pops <- read.csv("https://raw.githubusercontent.com/datasets/population/master/data/population.csv") %>% 
+    as_tibble() %>% 
+    filter(Year == max(Year)) %>% 
+    select(iso_code = Country.Code, pop = Value)
 
 
 ####### Vaccinated by Continent #####
@@ -65,6 +71,44 @@ c_fully <-continental %>%
     pull(full_vacc_label) %>% 
     paste0(collapse = "\n") %>% 
     paste0("Fully vaccinated by continent:\n\n", .) 
+
+
+
+####### Vaccinated by Income #####
+
+
+income_dat <- vaccs %>% 
+    filter(str_detect(location, "income")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup() %>% 
+    mutate(location = factor(location, levels = c("High income", "Upper middle income", "Lower middle income", "Low income"))) %>% 
+    arrange(location)
+
+
+
+####### At least 1 dose #####
+
+inc_1dose <- income_dat %>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_vaccinated_per_hundred/100),
+           full_vacc_label = paste0(location, ":\n", full_vacc_label)) %>% 
+    pull(full_vacc_label) %>% 
+    paste0(collapse = "\n\n") %>% 
+    paste0("At least 1 dose by country income group:\n\n", .)
+
+
+############# Fully ###########
+
+inc_fully <- income_dat %>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100),
+           full_vacc_label = paste0(location, ":\n", full_vacc_label)) %>% 
+    pull(full_vacc_label) %>% 
+    paste0(collapse = "\n\n") %>% 
+    paste0("Fully vaccinated by country income group:\n\n", .)
+
 
 ############# World Stats ###########
 
@@ -106,6 +150,33 @@ top_daily <- vaccs %>%
     paste0("Countries with Top Daily Vaccinations:\n\n", .)
 
 
+############# Daily Vaccination % Top 7 ###########
+
+
+top_daily_perc <- vaccs %>% 
+    filter(date == max(date)) %>% 
+    filter(!str_detect(iso_code, "OWID")) %>% 
+    left_join(pops) %>% 
+    ## only show countries that have at least 1 million population
+    ## so microstates don't rise to top with few hundred vaccinations
+    filter(pop >= 1000000) %>% 
+    mutate(daily_vaccinations_per_hundred = sprintf("%.2f", daily_vaccinations_per_million/10000)) %>% 
+    arrange(desc(daily_vaccinations_per_hundred)) %>% 
+    left_join(flag_emojis) %>% 
+    mutate(dvac_lab = scales::unit_format(scale = 1/1e6, accuracy = 0.001)(daily_vaccinations),
+           dvac_lab = ifelse(str_detect(dvac_lab, "0.0"),  scales::label_number()(daily_vaccinations), dvac_lab),
+           full_lab = glue::glue("{emoji} {dvac_lab} ({daily_vaccinations_per_hundred}% of pop.)"),
+           full_lab = ifelse(row_number() != 1, str_remove_all(full_lab, " of pop."), full_lab)) %>% 
+    slice(1:7) %>% 
+    pull(full_lab) %>% 
+    paste0(collapse = "\n") %>% 
+    paste0("Countries w/ greatest share of population vaccinated per day:\n\n", .)
+
+
+
+
+
+
 ############# Tweet it ###########
 
 twitteR::tweet(text = c_1dose, bypassCharLimit = T)
@@ -122,3 +193,14 @@ Sys.sleep(5)
 
 twitteR::tweet(text = top_daily, bypassCharLimit = T)
     
+Sys.sleep(5)
+
+twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = inc_fully, bypassCharLimit = T)
