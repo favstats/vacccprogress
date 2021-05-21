@@ -164,7 +164,7 @@ top_daily_perc <- vaccs %>%
     arrange(desc(daily_vaccinations_per_hundred)) %>% 
     left_join(flag_emojis) %>% 
     mutate(dvac_lab = scales::unit_format(scale = 1/1e6, accuracy = 0.001)(daily_vaccinations),
-           dvac_lab = ifelse(str_detect(dvac_lab, "0.0"),  scales::label_number()(daily_vaccinations), dvac_lab),
+           dvac_lab = ifelse(str_detect(dvac_lab, "0.0"),  scales::label_number()(daily_vaccinations), dvac_lab) %>% str_remove("\\.0"),
            full_lab = glue::glue("{emoji} {dvac_lab} ({daily_vaccinations_per_hundred}% of pop.)"),
            full_lab = ifelse(row_number() != 1, str_remove_all(full_lab, " of pop."), full_lab)) %>% 
     slice(1:7) %>% 
