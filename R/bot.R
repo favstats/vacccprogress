@@ -94,7 +94,8 @@ inc_1dose <- income_dat %>%
     rowwise() %>% 
     mutate(full_vacc_label = generate_pbar(people_vaccinated_per_hundred/100),
            full_vacc_label = paste0(location, ":\n", full_vacc_label),
-           full_vacc_label = str_replace(full_vacc_label, "High income:", "High-income countries:")) %>% 
+           full_vacc_label = str_replace(full_vacc_label, "High income:", "High-income countries:"),
+           full_vacc_label = str_replace(full_vacc_label, "Low income:", "Low-income countries:")) %>% 
     pull(full_vacc_label) %>% 
     paste0(collapse = "\n\n") %>% 
     paste0("At least 1 dose by country income group:\n\n", .)
@@ -106,7 +107,8 @@ inc_fully <- income_dat %>%
     rowwise() %>% 
     mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100),
            full_vacc_label = paste0(location, ":\n", full_vacc_label),
-           full_vacc_label = str_replace(full_vacc_label, "High income:", "High-income countries:")) %>% 
+           full_vacc_label = str_replace(full_vacc_label, "High income:", "High-income countries:"),
+           full_vacc_label = str_replace(full_vacc_label, "Low income:", "Low-income countries:")) %>% 
     pull(full_vacc_label) %>% 
     paste0(collapse = "\n\n") %>% 
     paste0("Fully vaccinated by country income group:\n\n", .)
