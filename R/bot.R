@@ -45,8 +45,8 @@ continental <- vaccs %>%
     ungroup() %>% 
     arrange(desc(date)) %>% 
     mutate(location = case_when(
-        location == "South America" ~ "S. America",
-        location == "North America" ~ "N. America",
+        location == "South America" ~ "S. Amer.",
+        location == "North America" ~ "N. Amer.",
         T ~ location
     )) 
 
