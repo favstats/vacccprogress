@@ -123,10 +123,10 @@ world_stats <- vaccs %>%
     slice(1) %>% 
     ungroup()%>% 
     rowwise() %>% 
-    mutate(people_fully_vaccinated = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(people_fully_vaccinated),
+    mutate(people_fully_vaccinated = scales::unit_format(scale = 1/1e9, accuracy = 0.001, unit = "bn")(people_fully_vaccinated),
            full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
            full_vacc_label = glue::glue("Fully vaccinated ({people_fully_vaccinated}):\n {full_vacc_label}"),
-           people_vaccinated = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(people_vaccinated),
+           people_vaccinated = scales::unit_format(scale = 1/1e9, accuracy = 0.001, unit = "bn")(people_vaccinated),
            vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
            vacc_label = glue::glue("At least 1 dose ({people_vaccinated}):\n {vacc_label}"),
            daily_vaccinations = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(daily_vaccinations),
