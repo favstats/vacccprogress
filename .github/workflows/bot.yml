@@ -45,6 +45,7 @@ jobs:
           install.packages('stringr')
           install.packages('countrycode')
           install.packages('scales')
+          install.packages('tidyr')
         shell: Rscript {0}
         if:  ${{ steps.check-whether-updated.outputs.IS_UPDATED == 1 }}
       - name: "Bot - Run"
