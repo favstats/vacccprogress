@@ -7,6 +7,7 @@ library(emo)
 library(countrycode)
 library(stringr)
 library(twitteR)
+library(webshot2)
 
 flag_emojis <- emo::jis %>%
     filter(group == "Flags") %>% 
@@ -178,34 +179,50 @@ top_daily_perc <- vaccs %>%
     paste0("Countries w/ greatest share of population vaccinated per day:\n\n", .)
 
 
+############ Images #############
 
 
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+        "img/share-people-fully-vaccinated-covid.png", selector = "figure")
 
+webshot("https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
+        "img/covid-vaccination-doses-per-capita.png", selector = "figure")
 
 ############# Tweet it ###########
 
-twitteR::tweet(text = c_1dose, bypassCharLimit = T)
+# twitteR::tweet(text = c_1dose, bypassCharLimit = T)
+# 
+# Sys.sleep(5)
+# 
+# twitteR::tweet(text = c_fully, bypassCharLimit = T)
+# 
+# Sys.sleep(5)
+# 
+# twitteR::tweet(text = world_stats, bypassCharLimit = T)
+# 
+# Sys.sleep(5)
+# 
+# twitteR::tweet(text = top_daily, bypassCharLimit = T)
+#     
+# Sys.sleep(5)
+# 
+# twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
+# 
+# Sys.sleep(5)
+# 
+# twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
+# 
+# Sys.sleep(5)
+# 
+# twitteR::tweet(text = inc_fully, bypassCharLimit = T)
+# 
+# Sys.sleep(5)
+
+twitteR::tweet(text = "Share of the population fully vaccinated against #COVID19", 
+               mediaPath = "img/share-people-fully-vaccinated-covid.png")
 
 Sys.sleep(5)
 
-twitteR::tweet(text = c_fully, bypassCharLimit = T)
+twitteR::tweet(text = "#COVID19 vaccine doses administered per 100 people", 
+               mediaPath = "img/covid-vaccination-doses-per-capita.png")
 
-Sys.sleep(5)
-
-twitteR::tweet(text = world_stats, bypassCharLimit = T)
-
-Sys.sleep(5)
-
-twitteR::tweet(text = top_daily, bypassCharLimit = T)
-    
-Sys.sleep(5)
-
-twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
-
-Sys.sleep(5)
-
-twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
-
-Sys.sleep(5)
-
-twitteR::tweet(text = inc_fully, bypassCharLimit = T)
