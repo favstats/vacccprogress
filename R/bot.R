@@ -185,44 +185,93 @@ top_daily_perc <- vaccs %>%
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
         "img/share-people-fully-vaccinated-covid.png", selector = "figure")
 
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Africa", 
+        "img/share-people-fully-vaccinated-covid-africa.png", selector = "figure")
+
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=NorthAmerica", 
+        "img/share-people-fully-vaccinated-covid-na.png", selector = "figure")
+
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=SouthAmerica", 
+        "img/share-people-fully-vaccinated-covid-sa.png", selector = "figure")
+
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Asia", 
+        "img/share-people-fully-vaccinated-covid-asia.png", selector = "figure")
+
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Europe", 
+        "img/share-people-fully-vaccinated-covid-europe.png", selector = "figure")
+
+webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Oceania", 
+        "img/share-people-fully-vaccinated-covid-oceania.png", selector = "figure")
+
 webshot("https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
         "img/covid-vaccination-doses-per-capita.png", selector = "figure")
 
 ############# Tweet it ###########
 
-# twitteR::tweet(text = c_1dose, bypassCharLimit = T)
-# 
-# Sys.sleep(5)
-# 
-# twitteR::tweet(text = c_fully, bypassCharLimit = T)
-# 
-# Sys.sleep(5)
-# 
-# twitteR::tweet(text = world_stats, bypassCharLimit = T)
-# 
-# Sys.sleep(5)
-# 
-# twitteR::tweet(text = top_daily, bypassCharLimit = T)
-#     
-# Sys.sleep(5)
-# 
-# twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
-# 
-# Sys.sleep(5)
-# 
-# twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
-# 
-# Sys.sleep(5)
-# 
-# twitteR::tweet(text = inc_fully, bypassCharLimit = T)
-# 
-# Sys.sleep(5)
-
-twitteR::tweet(text = "Share of the population fully vaccinated against #COVID19", 
-               mediaPath = "img/share-people-fully-vaccinated-covid.png")
+twitteR::tweet(text = c_1dose, bypassCharLimit = T)
 
 Sys.sleep(5)
 
-twitteR::tweet(text = "#COVID19 vaccine doses administered per 100 people", 
-               mediaPath = "img/covid-vaccination-doses-per-capita.png")
+twitteR::tweet(text = c_fully, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = world_stats, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = top_daily, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = inc_fully, bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of the population fully vaccinated against #COVID19\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid.png", bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Africa)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-africa.png", bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (North America)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-na.png", bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (South America)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-sa.png", bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Europa)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-europa.png", bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Asia)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-asia.png", bypassCharLimit = T)
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Oceania)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-oceania.png", bypassCharLimit = T)
+
+
+Sys.sleep(5)
+
+twitteR::tweet(text = "#COVID19 vaccine doses administered per 100 people\n\nhttps://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
+               mediaPath = "img/covid-vaccination-doses-per-capita.png", bypassCharLimit = T)
 
