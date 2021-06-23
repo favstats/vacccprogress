@@ -256,8 +256,8 @@ twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (So
 
 Sys.sleep(5)
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Europa)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-europa.png", bypassCharLimit = T)
+twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Europe)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               mediaPath = "img/share-people-fully-vaccinated-covid-europe.png", bypassCharLimit = T)
 
 Sys.sleep(5)
 
