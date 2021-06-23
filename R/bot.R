@@ -183,95 +183,119 @@ top_daily_perc <- vaccs %>%
 
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-        "img/share-people-fully-vaccinated-covid.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Africa", 
-        "img/share-people-fully-vaccinated-covid-africa.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid-africa.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=NorthAmerica", 
-        "img/share-people-fully-vaccinated-covid-na.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid-na.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=SouthAmerica", 
-        "img/share-people-fully-vaccinated-covid-sa.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid-sa.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Asia", 
-        "img/share-people-fully-vaccinated-covid-asia.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid-asia.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Europe", 
-        "img/share-people-fully-vaccinated-covid-europe.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid-europe.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Oceania", 
-        "img/share-people-fully-vaccinated-covid-oceania.png", selector = "figure")
+        here::here("img", "share-people-fully-vaccinated-covid-oceania.png"), selector = "figure")
 
 webshot("https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
-        "img/covid-vaccination-doses-per-capita.png", selector = "figure")
+        here::here("img", "covid-vaccination-doses-per-capita.png"), selector = "figure")
 
 ############# Tweet it ###########
+
+print("c_1dose")
 
 twitteR::tweet(text = c_1dose, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("c_fully")
 
 twitteR::tweet(text = c_fully, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("world_stats")
 
 twitteR::tweet(text = world_stats, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("top_daily")
 
 twitteR::tweet(text = top_daily, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("top_daily_perc")
 
 twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("inc_1dose")
 
 twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("inc_fully")
 
 twitteR::tweet(text = inc_fully, bypassCharLimit = T)
 
 Sys.sleep(5)
+print("share-people-fully-vaccinated-covid")
 
 twitteR::tweet(text = "Share of the population fully vaccinated against #COVID19\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid.png"), 
+               bypassCharLimit = T)
 
 Sys.sleep(5)
+print("Africa")
 
 twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Africa)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-africa.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-africa.png"), 
+               bypassCharLimit = T)
 
 Sys.sleep(5)
+print("North America")
 
 twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (North America)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-na.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-na.png"), 
+               bypassCharLimit = T)
 
 Sys.sleep(5)
+print("South America")
 
 twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (South America)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-sa.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-sa.png"), 
+               bypassCharLimit = T)
 
 Sys.sleep(5)
+print("Europe")
 
 twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Europe)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-europe.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-europe.png"), 
+               bypassCharLimit = T)
 
 Sys.sleep(5)
+print("Asia")
 
 twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Asia)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-asia.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-asia.png"), 
+               bypassCharLimit = T)
 
 Sys.sleep(5)
+print("Oceania")
 
 twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Oceania)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = "img/share-people-fully-vaccinated-covid-oceania.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-oceania.png"), 
+               bypassCharLimit = T)
 
 
 Sys.sleep(5)
+print("covid-vaccination-doses-per-capita")
 
 twitteR::tweet(text = "#COVID19 vaccine doses administered per 100 people\n\nhttps://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
-               mediaPath = "img/covid-vaccination-doses-per-capita.png", bypassCharLimit = T)
+               mediaPath = here::here("img", "covid-vaccination-doses-per-capita.png"), 
+               bypassCharLimit = T)
 
