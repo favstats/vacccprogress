@@ -37,7 +37,7 @@ jobs:
           echo "::set-output name=IS_UPDATED::$IS_UPDATED"
       - name: "Setup - Install Packages"
         run: |
-          install.packages('twitteR')
+          install.packages('rtweet')
           install.packages('dplyr')
           install.packages('here')
           install.packages('remotes')
