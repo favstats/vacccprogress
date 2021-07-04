@@ -8,6 +8,18 @@ library(countrycode)
 library(stringr)
 library(twitteR)
 library(webshot2)
+library(rtweet)
+
+print("authenticate")
+
+# Create a token containing your Twitter keys
+rtweet::create_token(
+    app = "Automated Bot Content",  # the name of the Twitter app
+    consumer_key = Sys.getenv("consumer_key"),
+    consumer_secret = Sys.getenv("consumer_secret"),
+    access_token = Sys.getenv("token"),
+    access_secret = Sys.getenv("secret")
+)
 
 flag_emojis <- emo::jis %>%
     filter(group == "Flags") %>% 
@@ -15,16 +27,7 @@ flag_emojis <- emo::jis %>%
     filter(!is.na(iso_code)) %>% 
     select(iso_code, emoji)
 
-consumer_key <- Sys.getenv("consumer_key")
 
-consumer_secret <- Sys.getenv("consumer_secret")
-
-access_token <- Sys.getenv("token")
-
-access_secret <- Sys.getenv("secret")
-
-setup_twitter_oauth(consumer_key,consumer_secret,
-                    access_token,access_secret)
 
 vaccs <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv") %>% 
     mutate(date = as.Date(date))
@@ -64,7 +67,7 @@ c_1dose <- continental %>%
 
 ############# Fully ###########
 
-c_fully <-continental %>% 
+c_fully <- continental %>% 
     rowwise() %>% 
     mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100),
            full_vacc_label = paste0(location, ":\n", full_vacc_label)) %>% 
@@ -134,6 +137,99 @@ world_stats <- vaccs %>%
            # daily_vaccinations_per_million = scales::label_number()(daily_vaccinations_per_million),
            full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} \n{full_vacc_label}\n\nDaily Vaccinations:\n{daily_vaccinations} doses administered\n{daily_vaccinations_per_million} doses per million people")) %>% pull(full_label)
 
+############# North America ###########
+
+na_stats <- vaccs %>% 
+    filter(location %in% c("North America")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()%>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+           full_vacc_label = glue::glue("Fully vaccinated\n {full_vacc_label}"),
+          vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+           vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
+           full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
+
+
+############# North America ###########
+
+sa_stats <- vaccs %>% 
+    filter(location %in% c("South America")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()%>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+           full_vacc_label = glue::glue("Fully vaccinated\n {full_vacc_label}"),
+           vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+           vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
+           full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
+
+
+############# Europe ###########
+
+eu_stats <- vaccs %>% 
+    filter(location %in% c("Europe")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()%>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+           full_vacc_label = glue::glue("Fully vaccinated\n {full_vacc_label}"),
+           vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+           vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
+           full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
+
+
+
+############# Oceania ###########
+
+oceania_stats <- vaccs %>% 
+    filter(location %in% c("Oceania")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()%>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+           full_vacc_label = glue::glue("Fully vaccinated\n {full_vacc_label}"),
+           vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+           vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
+           full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
+
+############# Africa ###########
+
+af_stats <- vaccs %>% 
+    filter(location %in% c("Africa")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()%>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+           full_vacc_label = glue::glue("Fully vaccinated\n {full_vacc_label}"),
+           vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+           vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
+           full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
+
+############# Asia ###########
+
+asia_stats <- vaccs %>% 
+    filter(location %in% c("Asia")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()%>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(people_fully_vaccinated_per_hundred/100, 17),
+           full_vacc_label = glue::glue("Fully vaccinated\n {full_vacc_label}"),
+           vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
+           vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
+           full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
 
 
 ############# Daily Vaccinations Top 7 ###########
@@ -210,92 +306,84 @@ webshot("https://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?t
 
 print("c_1dose")
 
-twitteR::tweet(text = c_1dose, bypassCharLimit = T)
+rtweet::post_tweet(status = c_1dose)
 
 Sys.sleep(5)
 print("c_fully")
 
-twitteR::tweet(text = c_fully, bypassCharLimit = T)
+rtweet::post_tweet(status = c_fully)
 
 Sys.sleep(5)
 print("world_stats")
 
-twitteR::tweet(text = world_stats, bypassCharLimit = T)
+rtweet::post_tweet(status = world_stats)
 
 Sys.sleep(5)
 print("top_daily")
 
-twitteR::tweet(text = top_daily, bypassCharLimit = T)
+rtweet::post_tweet(status = top_daily)
 
 Sys.sleep(5)
 print("top_daily_perc")
 
-twitteR::tweet(text = top_daily_perc, bypassCharLimit = T)
+rtweet::post_tweet(status = top_daily_perc)
 
 Sys.sleep(5)
 print("inc_1dose")
 
-twitteR::tweet(text = inc_1dose, bypassCharLimit = T)
+rtweet::post_tweet(status = inc_1dose)
 
 Sys.sleep(5)
 print("inc_fully")
 
-twitteR::tweet(text = inc_fully, bypassCharLimit = T)
+rtweet::post_tweet(status = inc_fully)
 
 Sys.sleep(5)
 print("share-people-fully-vaccinated-covid")
 
-twitteR::tweet(text = "Share of the population fully vaccinated against #COVID19\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = "Share of the population fully vaccinated against #COVID19\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               media = here::here("img", "share-people-fully-vaccinated-covid.png"))
 
 Sys.sleep(5)
 print("Africa")
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Africa)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-africa.png"), 
-               bypassCharLimit = T)
+twitteR::tweet(status = "Share of population fully vaccinated against #COVID19 (Africa)\n\n{af_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               media = here::here("img", "share-people-fully-vaccinated-covid-africa.png"))
 
 Sys.sleep(5)
 print("North America")
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (North America)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-na.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = glue::glue("Share of population fully vaccinated against #COVID19 (North America)\n\n{na_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest"), 
+               media = here::here("img", "share-people-fully-vaccinated-covid-na.png"))
 
 Sys.sleep(5)
 print("South America")
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (South America)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-sa.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = "Share of population fully vaccinated against #COVID19 (South America)\n\n{sa_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               media = here::here("img", "share-people-fully-vaccinated-covid-sa.png"))
 
 Sys.sleep(5)
 print("Europe")
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Europe)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-europe.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = "Share of population fully vaccinated against #COVID19 (Europe)\n\n{eu_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               media = here::here("img", "share-people-fully-vaccinated-covid-europe.png"))
 
 Sys.sleep(5)
 print("Asia")
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Asia)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-asia.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = "Share of population fully vaccinated against #COVID19 (Asia)\n\n{asia_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               media = here::here("img", "share-people-fully-vaccinated-covid-asia.png"))
 
 Sys.sleep(5)
 print("Oceania")
 
-twitteR::tweet(text = "Share of population fully vaccinated against #COVID19 (Oceania)\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
-               mediaPath = here::here("img", "share-people-fully-vaccinated-covid-oceania.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = "Share of population fully vaccinated against #COVID19 (Oceania)\n\n{oceania_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest", 
+               media = here::here("img", "share-people-fully-vaccinated-covid-oceania.png"))
 
 
 Sys.sleep(5)
 print("covid-vaccination-doses-per-capita")
 
-twitteR::tweet(text = "#COVID19 vaccine doses administered per 100 people\n\nhttps://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
-               mediaPath = here::here("img", "covid-vaccination-doses-per-capita.png"), 
-               bypassCharLimit = T)
+rtweet::post_tweet(status = "#COVID19 vaccine doses administered per 100 people\n\nhttps://ourworldindata.org/grapher/covid-vaccination-doses-per-capita?tab=map&time=latest", 
+               media = here::here("img", "covid-vaccination-doses-per-capita.png"))
 
