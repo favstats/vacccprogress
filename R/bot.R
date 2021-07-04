@@ -6,7 +6,6 @@ library(dplyr)
 library(emo)
 library(countrycode)
 library(stringr)
-library(twitteR)
 library(webshot2)
 library(rtweet)
 
