@@ -48,6 +48,7 @@ jobs:
           install.packages('tidyr')
           install.packages('fastmap')
           install.packages('processx')
+          install.packages('websocket')
           remotes::install_github("rstudio/chromote")
           remotes::install_github("rstudio/webshot2")
         shell: Rscript {0}
