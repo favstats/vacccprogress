@@ -47,7 +47,8 @@ jobs:
           install.packages('scales')
           install.packages('tidyr')
           install.packages('fastmap')
-          install.packages('chromote')
+          install.packages('processx')
+          remotes::install_github("rstudio/chromote")
           remotes::install_github("rstudio/webshot2")
         shell: Rscript {0}
         if:  ${{ steps.check-whether-updated.outputs.IS_UPDATED == 1 }}
