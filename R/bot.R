@@ -334,45 +334,45 @@ print("inc_fully")
 
 rtweet::post_tweet(status = inc_fully)
 
-Sys.sleep(5)
-print("share-people-fully-vaccinated-covid")
-
-rtweet::post_tweet(status = "Share of the population vaccinated against #COVID19\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest")#, 
-              # media = here::here("img", "share-people-fully-vaccinated-covid.png"))
-
-Sys.sleep(5)
-print("Africa")
-
-rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Africa)\n\n{af_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Africa"))#,
-              # media = here::here("img", "share-people-fully-vaccinated-covid-africa.png"))
-
-Sys.sleep(5)
-print("North America")
-
-rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (North America)\n\n{na_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=NorthAmerica"))#, 
-              # media = here::here("img", "share-people-fully-vaccinated-covid-na.png"))
-
-Sys.sleep(5)
-print("South America")
-
-rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (South America)\n\n{sa_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=SouthAmerica"))#,
-              # media = here::here("img", "share-people-fully-vaccinated-covid-sa.png"))
-
-Sys.sleep(5)
-print("Europe")
-
-rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Europe)\n\n{eu_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Europe"))#,
-              # media = here::here("img", "share-people-fully-vaccinated-covid-europe.png"))
-
-Sys.sleep(5)
-print("Asia")
-
-rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Asia)\n\n{asia_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Asia"))#, 
-              # media = here::here("img", "share-people-fully-vaccinated-covid-asia.png"))
-
-Sys.sleep(5)
-print("Oceania")
-
-rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Oceania)\n\n{oceania_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Oceania"))#, 
-              # media = here::here("img", "share-people-fully-vaccinated-covid-oceania.png"))
+# Sys.sleep(5)
+# print("share-people-fully-vaccinated-covid")
+# 
+# rtweet::post_tweet(status = "Share of the population vaccinated against #COVID19\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest")#, 
+#               # media = here::here("img", "share-people-fully-vaccinated-covid.png"))
+# 
+# Sys.sleep(5)
+# print("Africa")
+# 
+# rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Africa)\n\n{af_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Africa"))#,
+#               # media = here::here("img", "share-people-fully-vaccinated-covid-africa.png"))
+# 
+# Sys.sleep(5)
+# print("North America")
+# 
+# rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (North America)\n\n{na_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=NorthAmerica"))#, 
+#               # media = here::here("img", "share-people-fully-vaccinated-covid-na.png"))
+# 
+# Sys.sleep(5)
+# print("South America")
+# 
+# rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (South America)\n\n{sa_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=SouthAmerica"))#,
+#               # media = here::here("img", "share-people-fully-vaccinated-covid-sa.png"))
+# 
+# Sys.sleep(5)
+# print("Europe")
+# 
+# rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Europe)\n\n{eu_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Europe"))#,
+#               # media = here::here("img", "share-people-fully-vaccinated-covid-europe.png"))
+# 
+# Sys.sleep(5)
+# print("Asia")
+# 
+# rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Asia)\n\n{asia_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Asia"))#, 
+#               # media = here::here("img", "share-people-fully-vaccinated-covid-asia.png"))
+# 
+# Sys.sleep(5)
+# print("Oceania")
+# 
+# rtweet::post_tweet(status = glue::glue("Share of population vaccinated against #COVID19 (Oceania)\n\n{oceania_stats}\n\nhttps://ourworldindata.org/grapher/share-people-fully-vaccinated-covid?tab=map&time=latest&region=Oceania"))#, 
+#               # media = here::here("img", "share-people-fully-vaccinated-covid-oceania.png"))
 
