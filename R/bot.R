@@ -3,10 +3,7 @@ source(here::here("R", "utils.R"))
 
 
 library(dplyr)
-library(emo)
-library(countrycode)
 library(stringr)
-library(webshot2)
 library(rtweet)
 
 print("authenticate")
@@ -20,12 +17,13 @@ rtweet::create_token(
     access_secret = Sys.getenv("secret")
 )
 
-flag_emojis <- emo::jis %>%
-    filter(group == "Flags") %>% 
-    mutate(iso_code = countrycode::countrycode(name, origin = "country.name", destination = "iso3c")) %>% 
-    filter(!is.na(iso_code)) %>% 
-    select(iso_code, emoji)
+# flag_emojis <- emo::jis %>%
+#     filter(group == "Flags") %>% 
+#     mutate(iso_code = countrycode::countrycode(name, origin = "country.name", destination = "iso3c")) %>% 
+#     filter(!is.na(iso_code)) %>% 
+#     select(iso_code, emoji)
 
+flag_emojis <- readRDS("data/emojis.rds")
 
 
 vaccs <- read.csv("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv") %>% 

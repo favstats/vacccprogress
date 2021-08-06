@@ -41,9 +41,7 @@ jobs:
           install.packages('dplyr')
           install.packages('here')
           install.packages('remotes')
-          remotes::install_github("hadley/emo")
           install.packages('stringr')
-          install.packages('countrycode')
           install.packages('scales')
           install.packages('tidyr')
         shell: Rscript {0}
