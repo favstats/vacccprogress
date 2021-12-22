@@ -72,7 +72,15 @@ c_fully <- continental %>%
     paste0(collapse = "\n") %>% 
     paste0("Fully vaccinated by continent:\n\n", .) 
 
+############# Booster ###########
 
+c_boostered <- continental %>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(total_boosters_per_hundred/100),
+           full_vacc_label = paste0(location, ":\n", full_vacc_label)) %>% 
+    pull(full_vacc_label) %>% 
+    paste0(collapse = "\n") %>% 
+    paste0("People boostered by continent:\n\n", .) 
 
 ####### Vaccinated by Income #####
 
@@ -113,11 +121,27 @@ inc_fully <- income_dat %>%
     paste0(collapse = "\n\n") %>% 
     paste0("Fully vaccinated by country income group:\n\n", .)
 
+############# Booster ###########
+
+inc_boostered <- income_dat %>% 
+    mutate(total_boosters_per_hundred = ifelse(is.na(total_boosters_per_hundred), 0, total_boosters_per_hundred)) %>% 
+    rowwise() %>% 
+    mutate(full_vacc_label = generate_pbar(total_boosters_per_hundred/100),
+           full_vacc_label = paste0(location, ":\n", full_vacc_label),
+           full_vacc_label = str_replace(full_vacc_label, "High income:", "High-income countries:"),
+           full_vacc_label = str_replace(full_vacc_label, "Low income:", "Low-income countries:")) %>% 
+    pull(full_vacc_label) %>% 
+    paste0(collapse = "\n\n") %>% 
+    paste0("People boostered by country income group:\n\n", .) 
+
+
 
 ############# World Stats ###########
 
 
 world_stats <- vaccs %>% 
+    mutate(total_boosters_per_hundred = ifelse(is.na(total_boosters_per_hundred), 0, total_boosters_per_hundred)) %>% 
+    mutate(total_boosters = ifelse(is.na(total_boosters), 0, total_boosters)) %>% 
     filter(location %in% c("World")) %>% 
     group_by(location) %>% 
     arrange(desc(date)) %>% 
@@ -130,9 +154,12 @@ world_stats <- vaccs %>%
            people_vaccinated = scales::unit_format(scale = 1/1e9, accuracy = 0.001, unit = "bn")(people_vaccinated),
            vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
            vacc_label = glue::glue("At least 1 dose ({people_vaccinated}):\n {vacc_label}"),
+           total_boosters = scales::unit_format(scale = 1/1e6)(total_boosters),
+           booster_label = generate_pbar(total_boosters_per_hundred/100, 17),
+           booster_label = glue::glue("Boostered ({total_boosters}):\n {booster_label}"),
            daily_vaccinations = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(daily_vaccinations),
            # daily_vaccinations_per_million = scales::label_number()(daily_vaccinations_per_million),
-           full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} \n{full_vacc_label}\n\nDaily Vaccinations:\n{daily_vaccinations} doses administered\n{daily_vaccinations_per_million} doses per million people")) %>% pull(full_label)
+           full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} \n{full_vacc_label} \n{booster_label}\n\nDaily Vaccinations:\n{daily_vaccinations} doses administered\n{daily_vaccinations_per_million} doses per million people")) %>% pull(full_label)
 
 ############# North America ###########
 
@@ -150,7 +177,7 @@ na_stats <- vaccs %>%
            full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
 
 
-############# North America ###########
+############# South America ###########
 
 sa_stats <- vaccs %>% 
     filter(location %in% c("South America")) %>% 
@@ -239,6 +266,8 @@ top_daily <- vaccs %>%
     mutate(daily_vaccinations_per_hundred = sprintf("%.2f", daily_vaccinations_per_million/10000)) %>% 
     left_join(flag_emojis) %>% 
     mutate(dvac_lab = scales::unit_format(scale = 1/1e6, accuracy = 0.001)(daily_vaccinations),
+           dvac_lab = ifelse(str_detect(dvac_lab, "0\\.0"),  scales::label_number()(daily_vaccinations), dvac_lab),
+           dvac_lab = ifelse(str_ends(dvac_lab, "\\.0"), str_remove(dvac_lab, "\\.0"), dvac_lab),
            full_lab = glue::glue("{emoji} {dvac_lab} ({daily_vaccinations_per_hundred}% of pop.)"),
            full_lab = ifelse(row_number() != 1, str_remove_all(full_lab, " of pop."), full_lab)) %>%
     tidyr::drop_na(daily_vaccinations_per_million) %>% 
@@ -262,7 +291,8 @@ top_daily_perc <- vaccs %>%
     arrange(desc(daily_vaccinations_per_hundred)) %>% 
     left_join(flag_emojis) %>% 
     mutate(dvac_lab = scales::unit_format(scale = 1/1e6, accuracy = 0.001)(daily_vaccinations),
-           dvac_lab = ifelse(str_detect(dvac_lab, "0.0"),  scales::label_number()(daily_vaccinations), dvac_lab) %>% str_remove("\\.0"),
+           dvac_lab = ifelse(str_detect(dvac_lab, "0\\.0"),  scales::label_number()(daily_vaccinations), dvac_lab),
+           dvac_lab = ifelse(str_ends(dvac_lab, "\\.0"), str_remove(dvac_lab, "\\.0"), dvac_lab),
            full_lab = glue::glue("{emoji} {dvac_lab} ({daily_vaccinations_per_hundred}% of pop.)"),
            full_lab = ifelse(row_number() != 1, str_remove_all(full_lab, " of pop."), full_lab)) %>%
     tidyr::drop_na(daily_vaccinations_per_million) %>% 
@@ -308,6 +338,11 @@ print("c_fully")
 rtweet::post_tweet(status = c_fully)
 
 Sys.sleep(5)
+print("c_boostered")
+
+rtweet::post_tweet(status = c_boostered)
+
+Sys.sleep(5)
 print("world_stats")
 
 rtweet::post_tweet(status = world_stats)
@@ -331,6 +366,12 @@ Sys.sleep(5)
 print("inc_fully")
 
 rtweet::post_tweet(status = inc_fully)
+
+Sys.sleep(5)
+print("inc_boostered")
+
+rtweet::post_tweet(status = inc_boostered)
+
 
 # Sys.sleep(5)
 # print("share-people-fully-vaccinated-covid")
