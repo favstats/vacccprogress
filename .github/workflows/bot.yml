@@ -42,6 +42,7 @@ jobs:
           install.packages('here')
           install.packages('remotes')
           install.packages('stringr')
+          install.packages('lubridate')
           install.packages('scales')
           install.packages('tidyr')
         shell: Rscript {0}

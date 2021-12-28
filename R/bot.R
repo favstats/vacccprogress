@@ -4,6 +4,7 @@ source(here::here("R", "utils.R"))
 
 library(dplyr)
 library(stringr)
+# library(lubridate)
 library(rtweet)
 
 print("authenticate")
@@ -34,6 +35,34 @@ pops <- read.csv("https://raw.githubusercontent.com/datasets/population/master/d
     filter(Year == max(Year)) %>% 
     select(iso_code = Country.Code, pop = Value)
 
+
+####### Vaccinated by Continent last week #####
+
+populations_calculated <- vaccs %>% 
+    # filter(location %in% c("Europe", "North America", "South America", "Asia", "Africa", "Oceania")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    slice(1) %>% 
+    ungroup()  %>% 
+    mutate(total_pop = round(people_vaccinated/(people_vaccinated_per_hundred/100))) %>% 
+    select(location, total_pop)
+    
+
+continental_7weeks <- vaccs %>% 
+    filter(location %in% c("Europe", "North America", "South America", "Asia", "Africa", "Oceania")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    filter((max(date) - lubridate::days(7)) <= date) %>% #View
+    summarise(people_vaccinated   = sum(daily_people_vaccinated  , na.rm = T)) %>% 
+    ungroup() %>% 
+    left_join(populations_calculated) %>% 
+    # arrange(desc(date)) %>% 
+    mutate(location = case_when(
+        location == "South America" ~ "S. Amer.",
+        location == "North America" ~ "N. Amer.",
+        T ~ location
+    ),
+    perc_vaccinated = people_vaccinated/total_pop*100) 
 
 ####### Vaccinated by Continent #####
 
@@ -81,6 +110,21 @@ c_boostered <- continental %>%
     pull(full_vacc_label) %>% 
     paste0(collapse = "\n") %>% 
     paste0("People boostered by continent:\n\n", .) 
+
+
+####### Vaccinated by Income last week #####
+
+income_7weeks <- vaccs %>% 
+    filter(str_detect(location, "income")) %>% 
+    group_by(location) %>% 
+    arrange(desc(date)) %>% 
+    filter((max(date) - lubridate::days(7)) <= date) %>% #View
+    summarise(people_vaccinated   = sum(daily_people_vaccinated  , na.rm = T)) %>% 
+    ungroup() %>% 
+    left_join(populations_calculated)  %>% 
+    mutate(location = factor(location, levels = c("High income", "Upper middle income", "Lower middle income", "Low income"))) %>% 
+    arrange(location) %>% 
+    mutate(perc_vaccinated = people_vaccinated/total_pop*100) 
 
 ####### Vaccinated by Income #####
 
@@ -159,7 +203,7 @@ world_stats <- vaccs %>%
            booster_label = glue::glue("Boostered ({total_boosters}):\n {booster_label}"),
            daily_vaccinations = scales::unit_format(scale = 1/1e6, accuracy = 0.1)(daily_vaccinations),
            # daily_vaccinations_per_million = scales::label_number()(daily_vaccinations_per_million),
-           full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} \n{full_vacc_label} \n{booster_label}\n\nDaily Vaccinations:\n{daily_vaccinations} doses administered\n{daily_vaccinations_per_million} doses per million people")) %>% pull(full_label)
+           full_label = glue::glue("🌍World Vaccination Stats:\n\n{vacc_label} \n{full_vacc_label} \n{booster_label}\n\nDaily Vaccinations:\n{daily_vaccinations} doses\n{daily_vaccinations_per_million} per 1m")) %>% pull(full_label)
 
 ############# North America ###########
 
@@ -254,6 +298,37 @@ asia_stats <- vaccs %>%
            vacc_label = generate_pbar(people_vaccinated_per_hundred/100, 17),
            vacc_label = glue::glue("At least 1 dose:\n {vacc_label}"),
            full_label = glue::glue("{vacc_label} \n{full_vacc_label}")) %>% pull(full_label)
+
+############# Daily Vaccinations Top 7 Weekly ###########
+
+
+top_weekly <- vaccs %>% 
+    filter(!str_detect(iso_code, "OWID")) %>% 
+    group_by(location, iso_code) %>% 
+    arrange(desc(date)) %>% 
+    filter((max(date) - lubridate::days(7)) <= date) %>% #View
+    summarise(people_vaccinated   = sum(daily_people_vaccinated  , na.rm = T)) %>% 
+    ungroup() %>% 
+    left_join(populations_calculated)  %>%  
+    filter(total_pop >= 1000000) %>% 
+    arrange(desc(people_vaccinated)) %>% 
+    # mutate(daily_vaccinations_per_hundred = sprintf("%.2f", daily_vaccinations_per_million/10000)) %>% 
+    left_join(flag_emojis) %>%  
+    # mutate(location = factor(location, levels = c("High income", "Upper middle income", "Lower middle income", "Low income"))) %>% 
+    mutate(perc_vaccinated = round(people_vaccinated/total_pop*100, 2)) %>% 
+    # arrange(desc(perc_vaccinated)) %>% 
+    mutate(dvac_lab = scales::unit_format(scale = 1/1e6, accuracy = 0.001)(people_vaccinated),
+           dvac_lab = ifelse(str_detect(dvac_lab, "0\\.0"),  scales::label_number()(people_vaccinated), dvac_lab),
+           dvac_lab = ifelse(str_ends(dvac_lab, "\\.0"), str_remove(dvac_lab, "\\.0"), dvac_lab),
+           full_lab = glue::glue("{emoji} {dvac_lab} ({perc_vaccinated}% of pop.)"),
+           full_lab = ifelse(row_number() != 1, str_remove_all(full_lab, " of pop."), full_lab)) %>%
+    # tidyr::drop_na(daily_vaccinations_per_million) %>% 
+    slice(1:7) %>% 
+    pull(full_lab) %>% 
+    paste0(collapse = "\n") %>% 
+    paste0("Countries with the most newly vaccinated people since last week (at least 1 dose):\n\n", .)
+    
+
 
 
 ############# Daily Vaccinations Top 7 ###########
@@ -371,6 +446,17 @@ Sys.sleep(5)
 print("inc_boostered")
 
 rtweet::post_tweet(status = inc_boostered)
+
+
+if(lubridate::wday(Sys.Date())==1){
+    
+    Sys.sleep(5)
+    print("weekly summaries")
+    
+    rtweet::post_tweet(status = top_weekly)
+    
+}
+
 
 
 # Sys.sleep(5)
